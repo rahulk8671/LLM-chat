@@ -22,7 +22,7 @@ class DeepSeek {
                 })
             }
 
-            let response = await fetch(import.meta.env.DEEP_SEEK_API, {
+            let response = await fetch(import.meta.env.VITE_DEEP_SEEK_API, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
