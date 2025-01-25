@@ -22,7 +22,7 @@ class DeepSeek {
                 })
             }
 
-            let response = await fetch('https://wiwfvqx6hdiwivwt6gduhbc7ku0vmkqp.lambda-url.us-east-1.on.aws/', {
+            let response = await fetch(import.meta.env.DEEP_SEEK_API, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
