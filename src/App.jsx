@@ -2,6 +2,7 @@ import './App.css'
 import { useState, useEffect, useMemo, useRef } from 'react'
 import Input from './components/Input'
 import Gemini from './services/gemini'
+import DeepSeek from './services/deepseek'
 import Markdown from 'react-markdown'
 import util from './services/util'
 import Modal from 'react-modal'
@@ -13,6 +14,7 @@ function App() {
 	const [bots, setBots] = useState(localStorage.getItem("bots") ? JSON.parse(localStorage.getItem("bots")) : [])
 	const [isOpen, setIsOpen] = useState(false)
 	const gemini = useMemo(() => new Gemini(bot?.context || ''), [bot])
+	const deepSeek = useMemo(() => new DeepSeek(bot?.context || ''), [bot])
 	const [currentConversation, setCurrentConversation] = useState(null)
 	const [conversations, setConversations] = useState(localStorage.getItem("conversations") ? JSON.parse(localStorage.getItem("conversations")) : {})
 	const [messages, setMessages] = useState([])
@@ -97,7 +99,7 @@ function App() {
 					const text = last.parts[0].text
 
 					setIsLoading(true)
-					const responseText = await gemini.sendMessage({ message: text, history: JSON.parse(JSON.stringify(messages)) });
+					const responseText = await deepSeek.sendMessage({ message: text, history: JSON.parse(JSON.stringify(messages)) });
 
 					const newMessages = [...messages, { role: "model", parts: [{ text: responseText }] }]
 
@@ -117,7 +119,7 @@ function App() {
 				}, 500)
 			}
 		})()
-	}, [messages, gemini, isLoading, setConversations, conversations, currentConversation, bot])
+	}, [messages, deepSeek, isLoading, setConversations, conversations, currentConversation, bot])
 
 	const sortByDate = (list) => {
 		const sorted = list.sort((a, b) => {
